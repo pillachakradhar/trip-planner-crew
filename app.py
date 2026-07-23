@@ -37,11 +37,17 @@ def set_background(image_file):
         }}
 
         .block-container {{
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 16px;
-            padding: 2.5rem;
-            margin-top: 1rem;
-        }}
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-top: 1rem;
+    color: #262730;
+}}
+
+.block-container h1, .block-container h2, .block-container h3,
+.block-container p, .block-container label {{
+    color: #262730 !important;
+}}
         </style>
         """,
         unsafe_allow_html=True,
