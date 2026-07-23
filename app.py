@@ -1,7 +1,13 @@
 import streamlit as st
 import base64
+import os
 from dotenv import load_dotenv
 load_dotenv()
+
+# Works locally (.env) and on Streamlit Cloud (st.secrets)
+if "GEMINI_API_KEY" in st.secrets:
+    os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
+    os.environ["SERPER_API_KEY"] = st.secrets["SERPER_API_KEY"]
 
 from crew import run_trip_planner
 
