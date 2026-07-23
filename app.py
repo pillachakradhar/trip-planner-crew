@@ -47,7 +47,7 @@ def set_background(image_file):
         unsafe_allow_html=True,
     )
 
-set_background("background.jpg")
+set_background("Background.jpg")
 
 st.title("✈️ AI Trip Planner")
 # ... rest of your app
