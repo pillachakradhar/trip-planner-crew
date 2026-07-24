@@ -60,7 +60,9 @@ st.title("✈️ AI Trip Planner")
 st.write("Enter your trip details and let AI agents build your itinerary.")
 
 with st.form("trip_form"):
+    origin = st.text_input("Traveling from", placeholder="e.g. Hyderabad, India")
     destination = st.text_input("Destination", placeholder="e.g. Kyoto, Japan")
+    travel_date = st.date_input("Travel date")
     duration_days = st.number_input("Number of days", min_value=1, max_value=30, value=4)
     num_people = st.number_input("Number of people", min_value=1, max_value=20, value=1)
     budget_level = st.selectbox("Budget level", ["budget", "mid-range", "luxury"])
@@ -69,11 +71,11 @@ with st.form("trip_form"):
     submitted = st.form_submit_button("Plan My Trip")
 
 if submitted:
-    if not destination or not interests:
-        st.warning("Please fill in destination and interests.")
+    if not destination or not interests or not origin:
+        st.warning("Please fill in origin, destination, and interests.")
     else:
         with st.spinner("Your AI travel agents are working on it... this can take a minute or two."):
-            outputs = run_trip_planner(destination, duration_days, num_people, budget_level, interests)
+            outputs = run_trip_planner(origin, destination, travel_date, duration_days, num_people, budget_level, interests)
 
         st.success("Here's your itinerary!")
         st.markdown(outputs["itinerary"])
@@ -86,3 +88,8 @@ if submitted:
 
         with st.expander("💰 Budget Breakdown"):
             st.markdown(outputs["budget"])
+
+        with st.expander("🚗 Transport Options"):
+            st.markdown(outputs["transport"])
+
+            st.caption("⚠️ Transport info is a general guide from web search, not live availability or pricing. Always verify on official booking sites.")

@@ -51,3 +51,16 @@ itinerary_planner = Agent(
     verbose=True,
     allow_delegation=False,
 )
+transport_finder = Agent(
+    role="Transport Options Researcher",
+    goal="Find available modes of transport from {origin} to {destination} around {travel_date}",
+    backstory=(
+        "You are a travel logistics expert who knows how to research flights, "
+        "trains, buses, and other transport options between cities, including "
+        "typical airlines/operators, journey duration, and frequency."
+    ),
+    tools=[search_tool],
+    llm=gemini_llm,
+    verbose=True,
+    allow_delegation=False,
+)

@@ -1,5 +1,5 @@
 from crewai import Task
-from agents import destination_researcher, budget_analyst, itinerary_planner
+from agents import destination_researcher, budget_analyst, itinerary_planner, transport_finder
 
 research_task = Task(
     description=(
@@ -17,12 +17,13 @@ research_task = Task(
 budget_task = Task(
     description=(
         "Estimate a realistic budget for {duration_days} days in {destination} "
-        "at a {budget_level} level. Break down flights, accommodation, food, "
-        "local transport, and activities."
+        "for a group of {num_people} people, at a {budget_level} level. Break down "
+        "flights, accommodation, food, local transport, and activities. Give both "
+        "the per-person cost and the total cost for the whole group."
     ),
     expected_output=(
-        "A cost breakdown by category with a daily average and total estimate, "
-        "in USD."
+        "A cost breakdown by category with a per-person daily average, a total "
+        "cost for {num_people} people, and a grand total estimate, in USD."
     ),
     agent=budget_analyst,
 )
@@ -41,4 +42,20 @@ itinerary_task = Task(
     agent=itinerary_planner,
     context=[research_task, budget_task],  # <- this is the key line
     output_file="itinerary.md",
+)
+transport_task = Task(
+    description=(
+        "Research transport options from {origin} to {destination} for a trip "
+        "starting around {travel_date}. Cover flights (airlines that fly this "
+        "route, typical duration), trains (if applicable for this route), buses, "
+        "and cruises (if it's a coastal/island destination). Note typical price "
+        "ranges if available, but do not attempt to check live seat availability "
+        "or exact prices."
+    ),
+    expected_output=(
+        "A breakdown by transport mode (Flights / Trains / Buses / Cruises) with "
+        "2-3 options or airlines/operators per mode, approximate journey time, "
+        "and general price range, in markdown."
+    ),
+    agent=transport_finder,
 )
